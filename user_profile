@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>My History - Care Connect</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700;800&family=Roboto:wght@300;400;500&display=swap"
+      rel="stylesheet"
+    />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              "primary-indigo": "#4338CA",
+              "secondary-light": "#E0E7FF",
+              "health-green": "#10B981",
+              "analysis-blue": "#DBEAFE", // For form section background
+              "remedy-green": "#D1FAE5", // For BMI result section background
+            },
+            fontFamily: {
+              heading: ["Poppins", "sans-serif"],
+              body: ["Roboto", "sans-serif"],
+            },
+          },
+        },
+      };
+    </script>
+    <style>
+      body {
+        font-family: theme("fontFamily.body");
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        background-color: #f9fafb; /* Light background */
+      }
+      .font-heading {
+        font-family: theme("fontFamily.heading");
+      }
+      /* Optional: Style for input focus */
+      input:focus,
+      textarea:focus {
+        outline: none;
+        box-shadow: 0 0 0 2px theme("colors.primary-indigo");
+      }
+    </style>
+  </head>
+  <body class="min-h-screen">
+    <header
+      class="bg-primary-indigo py-4 px-6 sm:px-12 flex justify-between items-center shadow-lg sticky top-0 z-10"
+    >
+      <div class="text-3xl font-extrabold tracking-tight font-heading">
+        <span class="text-white">CARE</span
+        ><span class="text-secondary-light font-light ml-0.5">CONNECT</span>
+      </div>
+
+      <a
+        href="index.html"
+        class="font-heading px-6 py-2 text-primary-indigo font-bold text-base bg-white rounded-lg hover:bg-gray-100 transition duration-300"
+      >
+        Back to Home
+      </a>
+    </header>
+
+    <main class="flex-grow flex justify-center p-4 sm:p-8">
+      <div
+        class="w-full max-w-3xl bg-white p-6 sm:p-10 rounded-xl shadow-2xl border border-gray-100"
+      >
+        <h2
+          class="font-heading text-3xl font-extrabold text-primary-indigo mb-6 border-b pb-3"
+        >
+          Your Personal Health History & BMI Calculator
+        </h2>
+
+        <form id="history-form" class="space-y-6">
+          <div
+            class="p-4 bg-analysis-blue/30 rounded-lg border border-analysis-blue"
+          >
+            <h3 class="font-heading text-lg font-bold text-primary-indigo mb-3">
+              Personal & Course Details
+            </h3>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div>
+                <label
+                  for="hist-name"
+                  class="block text-sm font-medium text-gray-700"
+                  >Name</label
+                >
+                <input
+                  type="text"
+                  id="hist-name"
+                  class="mt-1 block w-full p-2 border border-gray-300 rounded-md focus:ring-primary-indigo focus:border-primary-indigo"
+                  required
+                />
+              </div>
+              <div>
+                <label
+                  for="hist-age"
+                  class="block text-sm font-medium text-gray-700"
+                  >Age (Years)</label
+                >
+                <input
+                  type="number"
+                  id="hist-age"
+                  min="1"
+                  max="120"
+                  class="mt-1 block w-full p-2 border border-gray-300 rounded-md focus:ring-primary-indigo focus:border-primary-indigo"
+                />
+              </div>
+              <div class="md:col-span-2">
+                <label
+                  for="hist-course"
+                  class="block text-sm font-medium text-gray-700"
+                  >Course / Major</label
+                >
+                <input
+                  type="text"
+                  id="hist-course"
+                  class="mt-1 block w-full p-2 border border-gray-300 rounded-md focus:ring-primary-indigo focus:border-primary-indigo"
+                />
+              </div>
+            </div>
+            <div>
+              <label
+                for="hist-conditions"
+                class="block text-sm font-medium text-gray-700 mt-4"
+                >Pre-existing Conditions</label
+              >
+              <textarea
+                id="hist-conditions"
+                rows="3"
+                placeholder="e.g., Asthma, Diabetes, Hypertension, None"
+                class="mt-1 block w-full p-2 border border-gray-300 rounded-md focus:ring-primary-indigo focus:border-primary-indigo"
+              ></textarea>
+            </div>
+          </div>
+
+          <div
+            class="p-4 bg-remedy-green/30 rounded-lg border border-health-green"
+          >
+            <h3 class="font-heading text-lg font-bold text-health-green mb-3">
+              Body Mass Index (BMI) Inputs
+            </h3>
+            <div class="grid grid-cols-2 gap-4">
+              <div>
+                <label
+                  for="hist-weight"
+                  class="block text-sm font-medium text-gray-700"
+                  >Weight (kg)</label
+                >
+                <input
+                  type="number"
+                  step="0.1"
+                  id="hist-weight"
+                  min="1"
+                  class="mt-1 block w-full p-2 border border-gray-300 rounded-md focus:ring-health-green focus:border-health-green"
+                  required
+                />
+              </div>
+              <div>
+                <label
+                  for="hist-height"
+                  class="block text-sm font-medium text-gray-700"
+                  >Height (cm)</label
+                >
+                <input
+                  type="number"
+                  step="1"
+                  id="hist-height"
+                  min="1"
+                  class="mt-1 block w-full p-2 border border-gray-300 rounded-md focus:ring-health-green focus:border-health-green"
+                  required
+                />
+              </div>
+            </div>
+          </div>
+
+          <button
+            type="submit"
+            class="w-full bg-primary-indigo text-white px-4 py-3 rounded-lg font-bold text-lg shadow-xl hover:bg-primary-indigo/90 transition duration-200 mt-6 tracking-wide"
+          >
+            Save Data & Compute BMI
+          </button>
+        </form>
+
+        <div
+          id="history-summary"
+          class="mt-8 p-6 bg-gray-50 rounded-xl shadow-inner hidden border border-gray-200"
+        >
+          <h3
+            class="font-heading text-xl font-bold text-health-green mb-4 border-b pb-2"
+          >
+            Computed BMI Result
+          </h3>
+          <div
+            id="summary-content"
+            class="text-base text-gray-700 space-y-3"
+          ></div>
+        </div>
+      </div>
+    </main>
+
+    <script>
+      const historyForm = document.getElementById("history-form");
+      const historySummary = document.getElementById("history-summary");
+      const summaryContent = document.getElementById("summary-content");
+
+      // Functions for BMI calculation
+      function calculateBMI(weightKg, heightMeters) {
+        if (heightMeters === 0) return "Error";
+        // BMI formula: weight (kg) / height (m)^2
+        return (weightKg / (heightMeters * heightMeters)).toFixed(2);
+      }
+
+      function getBMICategory(bmi) {
+        if (bmi === "Error" || isNaN(bmi)) return "N/A - Check inputs";
+        if (bmi < 18.5) return "Underweight (Below 18.5)";
+        if (bmi >= 18.5 && bmi <= 24.9) return "Normal Weight (18.5 – 24.9)";
+        if (bmi >= 25 && bmi <= 29.9) return "Overweight (25.0 – 29.9)";
+        return "Obese (30.0 and above)";
+      }
+
+      function displayHistorySummary(data) {
+        summaryContent.innerHTML = `
+          <div class="grid grid-cols-2 gap-4">
+            <p><strong class="text-primary-indigo">Name:</strong> ${
+              data.name || "N/A"
+            }</p>
+            <p><strong class="text-primary-indigo">Age:</strong> ${
+              data.age || "N/A"
+            }</p>
+            <p><strong class="text-primary-indigo">Course:</strong> ${
+              data.course || "N/A"
+            }</p>
+            <p><strong class="text-primary-indigo">Conditions:</strong> ${
+              data.conditions || "None"
+            }</p>
+          </div>
+          
+          <div class="mt-4 p-4 bg-remedy-green rounded-lg text-base font-bold shadow-md">
+            <div class="flex justify-between items-center mb-1">
+              <span>BMI Result:</span>
+              <span class="text-2xl font-extrabold text-health-green">${
+                data.bmi
+              }</span>
+            </div>
+            <div class="flex justify-between items-center">
+              <span>Category:</span>
+              <span class="text-health-green">${data.bmiCategory}</span>
+            </div>
+            <p class="text-xs font-normal text-gray-600 mt-2 italic border-t border-health-green/40 pt-2">
+                BMI is calculated as $\text{weight (kg)} / \text{height (m)}^2$.
+            </p>
+          </div>
+        `;
+        historySummary.classList.remove("hidden");
+      }
+
+      function handleHistorySubmit(e) {
+        e.preventDefault();
+
+        // 1. Collect Form Data
+        const name = document.getElementById("hist-name").value.trim();
+        const age = document.getElementById("hist-age").value.trim();
+        const course = document.getElementById("hist-course").value.trim();
+        const conditions = document
+          .getElementById("hist-conditions")
+          .value.trim();
+        const weightKg = parseFloat(
+          document.getElementById("hist-weight").value
+        );
+        const heightCm = parseFloat(
+          document.getElementById("hist-height").value
+        );
+        const heightMeters = heightCm / 100;
+
+        let bmiResult = "N/A";
+        let bmiCategory = "N/A";
+
+        // 2. Compute BMI
+        if (!isNaN(weightKg) && !isNaN(heightMeters) && heightMeters > 0) {
+          bmiResult = calculateBMI(weightKg, heightMeters);
+          bmiCategory = getBMICategory(parseFloat(bmiResult));
+        }
+
+        // 3. Create Data Object
+        const currentData = {
+          name: name || "Not Provided",
+          age: age || "N/A",
+          course: course || "N/A",
+          conditions: conditions || "None",
+          weightKg: weightKg,
+          heightCm: heightCm,
+          bmi: bmiResult,
+          bmiCategory: bmiCategory,
+        };
+
+        // 4. Display Summary
+        displayHistorySummary(currentData);
+      }
+
+      // Event Listeners
+      historyForm.addEventListener("submit", handleHistorySubmit);
+    </script>
+  </body>
+</html>
