@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Symptom Checker | Care Connect</title>
+    <!-- Load Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Configure Tailwind to use a custom font and colors -->
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              "primary-blue": "#4c51bf",
+              "header-bg": "rgba(128, 137, 240, 0.90)",
+              "accent-green": "#10b981",
+            },
+            fontFamily: {
+              sans: ["Inter", "sans-serif"],
+            },
+          },
+        },
+      };
+    </script>
+    <style>
+      .header-glass {
+        background-color: var(--tw-header-bg);
+        backdrop-filter: blur(4px);
+      }
+    </style>
+  </head>
+  <body class="font-sans min-h-screen bg-gray-100">
+    <!-- Header/Navigation Bar for Symptom Checker Page -->
+    <header
+      class="header-glass sticky top-0 w-full z-30 py-4 px-6 sm:px-12 flex justify-between items-center text-white shadow-lg"
+    >
+      <!-- Logo -->
+      <div class="text-3xl font-extrabold tracking-tight">
+        <a href="index.html" class="text-white hover:text-blue-200 transition">
+          <span class="text-white">CARE</span
+          ><span class="text-blue-200 font-light ml-0.5">CONNECT</span>
+        </a>
+      </div>
+
+      <!-- Back Link -->
+      <nav class="font-medium text-lg">
+        <a
+          href="index.html"
+          class="px-4 py-2 rounded-lg bg-primary-blue hover:bg-indigo-700 transition duration-200 shadow-md"
+        >
+          &larr; Back to Home
+        </a>
+      </nav>
+    </header>
+
+    <!-- Symptom Checker Section Content -->
+    <main
+      class="min-h-[calc(100vh-80px)] flex flex-col items-center justify-center p-6 sm:p-12"
+    >
+      <div
+        id="symptom-checker"
+        class="w-full max-w-3xl bg-white p-8 rounded-xl shadow-2xl transition duration-500 transform hover:scale-[1.005]"
+      >
+        <h2 class="text-4xl text-primary-blue mb-4 font-extrabold text-center">
+          SYMPTOM CHECKER
+        </h2>
+        <p class="text-lg text-gray-600 mb-8 text-center">
+          Tell us what you're feeling and get an initial, simulated health
+          category suggestion.
+        </p>
+
+        <div class="flex flex-col space-y-4">
+          <label for="symptom-input" class="text-gray-700 font-semibold"
+            >Describe your symptoms clearly:</label
+          >
+          <textarea
+            id="symptom-input"
+            placeholder="e.g., I have a persistent cough, low-grade fever, and feel fatigued..."
+            rows="5"
+            class="w-full p-4 border border-gray-300 rounded-lg focus:ring-primary-blue focus:border-primary-blue transition focus:outline-none resize-none"
+          ></textarea>
+
+          <button
+            id="diagnose-button"
+            class="w-full py-3 text-white font-semibold text-lg bg-primary-blue rounded-xl shadow-md hover:bg-indigo-700 transition duration-300 transform hover:scale-[1.01]"
+          >
+            Get Simulated Diagnosis
+          </button>
+        </div>
+
+        <!-- Area to display the persistent result -->
+        <div
+          id="diagnosis-result"
+          class="mt-8 p-6 bg-blue-50 border border-blue-300 text-blue-800 rounded-lg shadow-inner hidden"
+        >
+          <!-- Result will be inserted here -->
+        </div>
+      </div>
+    </main>
+
+    <!-- JavaScript Functions for Symptom Checker -->
+    <script>
+      // ----------------------------------------------------
+      // ILLNESS DATABASE (Expanded for Symptom Detail Page)
+      // NOTE: This database must match the one in diagnosis_detail.html
+      // ----------------------------------------------------
+      const ILLNESS_DATABASE = [
+        {
+          name: "Common Colds and Flu (ILI)",
+          description:
+            "Influenza-like illnesses, common during the rainy season (June to November). Highly contagious in crowded school settings. Symptoms include fever and cough.",
+          keywords: [
+            "cold",
+            "flu",
+            "cough",
+            "fever",
+            "sore throat",
+            "respiratory",
+            "ILI",
+            "seasonal",
+          ],
+          symptoms: [
+            "Runny or stuffy nose",
+            "Sore throat",
+            "Cough (usually dry)",
+            "Low-grade fever",
+            "Fatigue/Malaise",
+          ],
+          remedies: [
+            "Rest: Get plenty of sleep to help the immune system.",
+            "Hydration: Drink warm fluids like water, tea, or broth.",
+            "Steam: Use a humidifier or take a steamy shower to clear congestion.",
+          ],
+          medications: [
+            "Paracetamol/Acetaminophen: For fever and pain relief.",
+            "Decongestants: To relieve nasal congestion (use cautiously and follow age guidelines).",
+          ],
+          research: [
+            "RRL: ILI incidence peaks during the Philippine rainy season (June–November) due to increased virus stability and indoor crowding (DOH Surveillance Report, 2025).",
+            "Scientific Research: Colds are caused by rhinovirus, while flu is caused by the influenza virus. Treatment is generally supportive and aims to relieve symptoms.",
+          ],
+        },
+        {
+          name: "Dengue Fever",
+          description:
+            "A mosquito-borne viral disease, significant threat during the rainy season. Symptoms include high fever, rashes, body pain, and fatigue.",
+          keywords: [
+            "dengue",
+            "mosquito",
+            "high fever",
+            "rash",
+            "body pain",
+            "fatigue",
+            "viral",
+            "joint",
+            "headache",
+          ],
+          symptoms: [
+            "Sudden high fever (40°C/104°F) for 2–7 days",
+            "Severe headache",
+            "Pain behind the eyes",
+            "Severe joint and muscle pain",
+            "Skin rash (appearing 2-5 days after fever)",
+          ],
+          remedies: [
+            "Hydration: Drink plenty of fluids (water, oral rehydration solution).",
+            "Rest: Strict bed rest is essential.",
+            "Monitoring: Watch for warning signs like severe abdominal pain, persistent vomiting, bleeding, or sudden drop in temperature.",
+          ],
+          medications: [
+            "Paracetamol: To control fever and ease body pains.",
+            "AVOID NSAIDs: Medications like Ibuprofen or Aspirin MUST be avoided as they can increase the risk of bleeding (hemorrhage).",
+          ],
+          research: [
+            "RRL: DOH protocols emphasize that fever management in suspected dengue cases must exclusively use Paracetamol to avoid bleeding complications associated with NSAIDs.",
+            "Scientific Research: The Dengue virus (DENV) has four serotypes. A second infection carries a higher risk of developing severe dengue due to Antibody-Dependent Enhancement (ADE).",
+          ],
+        },
+        {
+          name: "Viral Gastroenteritis",
+          description:
+            "Often called 'stomach flu,' causing vomiting and diarrhea. Spread via contaminated food or water. Dehydration is a key concern.",
+          keywords: [
+            "vomiting",
+            "diarrhea",
+            "stomach flu",
+            "gastroenteritis",
+            "contaminated food",
+            "dehydration",
+            "unsafe water",
+            "urination",
+            "nausea",
+          ],
+          symptoms: [
+            "Watery diarrhea",
+            "Nausea and vomiting",
+            "Abdominal cramps",
+            "Low-grade fever",
+          ],
+          remedies: [
+            "Rehydration: Use Oral Rehydration Solution (ORS) frequently to replace lost fluids and electrolytes.",
+            "Diet: Start with bland foods (BRAT diet: bananas, rice, applesauce, toast).",
+            "Isolation: Practice strict hygiene to prevent spread.",
+          ],
+          medications: [
+            "ORS (Oral Rehydration Solution): The primary treatment to prevent dehydration.",
+            "Anti-diarrheal drugs are generally NOT recommended for children as they can prolong the infection.",
+          ],
+          research: [
+            "RRL: Studies in Metro Manila show gastroenteritis outbreaks often correlate with poor community sanitation or improper food handling in canteens (Philippine Journal of Pediatrics, 2023).",
+            "Scientific Research: Most cases are caused by Rotavirus or Norovirus. The key to management is preventing severe dehydration, which causes mortality in children.",
+          ],
+        },
+        {
+          name: "Hand, Foot, and Mouth Disease (HFMD)",
+          description:
+            "A contagious viral infection most common in preschools. Causes painful sores in the mouth and rashes on the hands and feet.",
+          keywords: [
+            "hfmd",
+            "hand",
+            "foot",
+            "mouth",
+            "sores",
+            "rash",
+            "contagious",
+            "blisters",
+            "preschool",
+          ],
+          symptoms: [
+            "Fever",
+            "Painful, red, blister-like sores in the mouth and throat",
+            "Red rash, sometimes with blistering, on the palms of the hands and soles of the feet",
+          ],
+          remedies: [
+            "Pain relief: Use non-aspirin pain relievers to ease discomfort.",
+            "Fluids: Encourage drinking to prevent dehydration, especially if mouth sores make swallowing painful.",
+            "Oral Rinse: Use warm salt water rinses to soothe mouth sores.",
+          ],
+          medications: [
+            "Paracetamol/Acetaminophen: For fever and discomfort.",
+            "Topical oral anesthetics: For mouth pain (consult doctor).",
+          ],
+          research: [
+            "RRL: The DOH noted a surge in HFMD cases among young Filipinos in 2024, emphasizing proper disinfection of shared objects in schools and daycares as critical preventive measures.",
+            "Scientific Research: HFMD is usually caused by Coxsackievirus A16. It is highly contagious, and transmission occurs through close personal contact, coughing/sneezing, and contact with contaminated surfaces.",
+          ],
+        },
+        {
+          name: "Parasitic Worm Infections",
+          description:
+            "Intestinal parasites linked to poor sanitation. Can affect nutrition and academic performance. Symptoms may include diarrhea.",
+          keywords: [
+            "parasite",
+            "worm",
+            "intestinal",
+            "sanitation",
+            "hygiene",
+            "diarrhea",
+            "malnutrition",
+            "stomach",
+            "de-worming",
+          ],
+          symptoms: [
+            "Abdominal pain or discomfort",
+            "Diarrhea",
+            "Nausea/Vomiting (sometimes)",
+            "Fatigue/Weakness",
+            "Weight loss or poor weight gain",
+          ],
+          remedies: [
+            "Hygiene: Teach frequent handwashing, especially before eating and after using the toilet.",
+            "Sanitation: Ensure access to clean water and properly maintained toilets.",
+            "Nutrition: Maintain a balanced diet to support the body's defenses.",
+          ],
+          medications: [
+            "Deworming medications (e.g., Albendazole or Mebendazole): Administered under DOH programs or doctor's prescription.",
+            "Iron supplements: May be necessary if anemia has developed.",
+          ],
+          research: [
+            "RRL: School-based deworming programs are a public health priority in the Philippines. A 2022 study showed improved cognitive function and reduced anemia in children post-treatment.",
+            "Scientific Research: Common infections include Ascariasis and Trichuriasis. Treatment involves targeted anthelmintic drugs that paralyze or kill the parasites for expulsion.",
+          ],
+        },
+      ];
+
+      // ----------------------------------------------------
+      // CORE APPLICATION FUNCTIONS
+      // ----------------------------------------------------
+
+      /**
+       * Function to perform a simulated diagnosis and display the result in the dedicated area.
+       */
+      function runSymptomDiagnosis() {
+        const symptomInput = document.getElementById("symptom-input");
+        const resultDiv = document.getElementById("diagnosis-result");
+        const symptoms = symptomInput.value.trim();
+
+        // Clear previous result
+        resultDiv.classList.add("hidden");
+        resultDiv.innerHTML = "";
+
+        if (!symptoms) {
+          displayTemporaryMessage(
+            "Please enter symptoms before requesting a diagnosis.",
+            3000
+          );
+          return;
+        }
+
+        // Show a temporary loading message
+        resultDiv.classList.remove(
+          "hidden",
+          "bg-blue-100",
+          "text-blue-800",
+          "bg-gray-100",
+          "text-gray-800"
+        );
+        resultDiv.classList.add("bg-yellow-100", "text-yellow-800");
+        resultDiv.innerHTML =
+          '<p class="font-bold">Analyzing...</p><p>Searching common illness database for matches.</p>';
+
+        // Simulate processing delay
+        setTimeout(() => {
+          const lowerSymptoms = symptoms.toLowerCase();
+          // Split user input into individual symptom tokens, allowing all words (even short ones like "my")
+          const symptomTokens = lowerSymptoms
+            .split(/\s+/)
+            .filter((token) => token.length > 0);
+
+          let matches = [];
+          let matchedIllnessNames = new Set(); // Use a Set to store names and avoid duplicates
+
+          // 1. Iterate through the database to find matches
+          ILLNESS_DATABASE.forEach((illness) => {
+            // Combine all relevant text (Name, Description, and Keywords) into one searchable string
+            const searchableText = (
+              illness.name +
+              " " +
+              illness.description +
+              " " +
+              illness.keywords.join(" ") +
+              " " +
+              illness.symptoms.join(" ")
+            ).toLowerCase();
+
+            // Check if any symptom token from the user's input is present in the searchable text
+            // We check for the token within any part of the searchable text (includes)
+            const tokenMatch = symptomTokens.find((token) =>
+              searchableText.includes(token)
+            );
+
+            if (tokenMatch && !matchedIllnessNames.has(illness.name)) {
+              // If a match is found and this illness hasn't been added yet
+              matches.push({
+                name: illness.name,
+                description: illness.description,
+                matchedKeyword: tokenMatch, // This is the token from the user's input that triggered the match
+              });
+              matchedIllnessNames.add(illness.name);
+            }
+          });
+
+          let diagnosisMessage;
+
+          if (matches.length > 0) {
+            // 2. Format result for strong matches with links to the detail page
+            diagnosisMessage = `
+                        <p class="font-bold text-lg mb-2 text-primary-blue">Possible Matches Found:</p>
+                        <p class="text-gray-700">Based on your input ("${symptoms}"), click **"View Details"** below for specific symptoms, remedies, and research:</p>
+                        <div class="mt-4 space-y-3">
+                        ${matches
+                          .map((match) => {
+                            const encodedName = encodeURIComponent(match.name);
+                            return `
+                                <a href="diagnosis_detail.html?illness=${encodedName}" 
+                                   class="block w-full text-left py-3 px-4 bg-primary-blue text-white rounded-xl shadow-lg hover:bg-indigo-700 transition duration-200 font-semibold flex justify-between items-center transform hover:scale-[1.01]">
+                                    <span class="font-bold">${match.name}</span>
+                                    <span class="text-sm bg-white text-primary-blue py-1 px-3 rounded-full">View Details &rarr;</span>
+                                </a>
+                            `;
+                          })
+                          .join("")}
+                        </div>
+                    `;
+
+            // Switch back to result colors for a match
+            resultDiv.classList.remove(
+              "bg-yellow-100",
+              "text-yellow-800",
+              "bg-gray-100",
+              "text-gray-800"
+            );
+            resultDiv.classList.add("bg-blue-100", "text-blue-800");
+          } else {
+            // 3. Fallback for no specific match
+            const generalMessage =
+              "No strong match found in our common illness database for those symptoms.";
+            const recommendationText =
+              "Please provide more specific keywords or keywords related to common symptoms like **fever, cough, rash, stomach, or pain**. We recommend seeking medical advice.";
+
+            diagnosisMessage = `
+                        <p class="font-bold text-lg mb-1">Simulated Result:</p>
+                        <p class="mt-2 font-bold text-xl">${generalMessage}</p>
+                        <p class="mt-2">${recommendationText}</p>
+                    `;
+
+            // Switch back to result colors (using a neutral/info color for no match)
+            resultDiv.classList.remove(
+              "bg-yellow-100",
+              "text-yellow-800",
+              "bg-blue-100",
+              "text-blue-800"
+            );
+            resultDiv.classList.add("bg-gray-100", "text-gray-800");
+          }
+
+          resultDiv.innerHTML = diagnosisMessage;
+          symptomInput.value = ""; // Clear input field
+          resultDiv.classList.remove("hidden");
+        }, 1500); // Simulate 1.5 second loading time
+      }
+
+      /**
+       * Initializes event listeners for the Symptom Checker section.
+       */
+      function initializeSymptomChecker() {
+        const diagnoseButton = document.getElementById("diagnose-button");
+
+        if (diagnoseButton) {
+          diagnoseButton.addEventListener("click", runSymptomDiagnosis);
+        }
+
+        // Allow diagnosis on 'Enter' key press in the textarea
+        const symptomInput = document.getElementById("symptom-input");
+        symptomInput.addEventListener("keypress", function (e) {
+          if (e.key === "Enter" && !e.shiftKey) {
+            e.preventDefault();
+            runSymptomDiagnosis();
+          }
+        });
+      }
+
+      /**
+       * Simple function to display a temporary message (like an alert replacement)
+       */
+      function displayTemporaryMessage(message, duration) {
+        let messageBox = document.getElementById("temp-message");
+        if (!messageBox) {
+          messageBox = document.createElement("div");
+          messageBox.id = "temp-message";
+          messageBox.className =
+            "fixed bottom-4 left-1/2 transform -translate-x-1/2 bg-indigo-600 text-white px-6 py-3 rounded-xl shadow-2xl transition-opacity duration-300 opacity-0 z-50";
+          document.body.appendChild(messageBox);
+        }
+
+        messageBox.innerHTML = message;
+        messageBox.classList.remove("opacity-0");
+
+        setTimeout(() => {
+          messageBox.classList.add("opacity-0");
+        }, duration);
+      }
+
+      // Initialize all functions when the page loads
+      window.onload = () => {
+        initializeSymptomChecker();
+        console.log("Symptom Checker page initialized with custom database.");
+      };
+    </script>
+  </body>
+</html>
