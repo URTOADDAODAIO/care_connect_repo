@@ -1,0 +1,535 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title id="page-title">Loading Details...</title>
+    <!-- Load Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Configure Tailwind to use a custom font and colors -->
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              "primary-blue": "#4c51bf",
+              "header-bg": "rgba(128, 137, 240, 0.90)",
+              "accent-green": "#10b981",
+              "deep-indigo": "#4338ca", // Added for Expert Comment section
+            },
+            fontFamily: {
+              sans: ["Inter", "sans-serif"],
+            },
+          },
+        },
+      };
+    </script>
+    <style>
+      .header-glass {
+        background-color: var(--tw-header-bg);
+        backdrop-filter: blur(4px);
+      }
+      .section-icon {
+        color: #4c51bf; /* primary-blue */
+      }
+    </style>
+    <!-- Load Font Awesome for icons -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+      xintegrity="sha512-..."
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+  </head>
+  <body class="font-sans min-h-screen bg-gray-50">
+    <!-- Header/Navigation Bar -->
+    <header
+      class="header-glass sticky top-0 w-full z-30 py-4 px-6 sm:px-12 flex justify-between items-center text-white shadow-lg"
+    >
+      <!-- Logo -->
+      <div class="text-3xl font-extrabold tracking-tight">
+        <a href="index.html" class="text-white hover:text-blue-200 transition">
+          <span class="text-white">CARE</span
+          ><span class="text-blue-200 font-light ml-0.5">CONNECT</span>
+        </a>
+      </div>
+
+      <!-- Back Link -->
+      <nav class="font-medium text-lg">
+        <a
+          href="symptom_checker.html"
+          class="px-4 py-2 rounded-lg bg-accent-green hover:bg-emerald-600 transition duration-200 shadow-md"
+        >
+          &larr; Back to Checker
+        </a>
+      </nav>
+    </header>
+
+    <!-- Main Content Area -->
+    <main class="py-12 px-4 sm:px-8 lg:px-12">
+      <div class="max-w-4xl mx-auto bg-white p-8 rounded-xl shadow-2xl">
+        <div id="detail-content">
+          <!-- Content will be dynamically injected here -->
+          <p class="text-center text-gray-500">Loading illness details...</p>
+        </div>
+      </div>
+    </main>
+
+    <!-- JavaScript Functions for Detail Page -->
+    <script>
+      // ----------------------------------------------------
+      // ILLNESS DATABASE (REFERENCES UPDATED with Expert Comments)
+      // ----------------------------------------------------
+      const ILLNESS_DATABASE = [
+        {
+          name: "Common Colds and Flu (ILI)",
+          description:
+            "Influenza-like illnesses, common during the rainy season (June to November). Highly contagious in crowded school settings. Symptoms include fever and cough.",
+          keywords: [
+            "cold",
+            "flu",
+            "cough",
+            "fever",
+            "sore throat",
+            "respiratory",
+            "ILI",
+            "seasonal",
+            "rainy season",
+            "June",
+            "November",
+            "contagious",
+            "school",
+            "influenza-like",
+          ],
+          cause:
+            "Caused by various respiratory viruses, primarily **Rhinovirus** (for colds) or **Influenza virus** (for the flu). Spread through respiratory droplets from coughing or sneezing.",
+          symptoms: [
+            "Runny or stuffy nose",
+            "Sore throat",
+            "Cough (usually dry)",
+            "Low-grade fever",
+            "Fatigue/Malaise",
+          ],
+          remedies: [
+            "Rest: Get plenty of sleep to help the immune system.",
+            "Hydration: Drink warm fluids like water, tea, or broth.",
+            "Steam: Use a humidifier or take a steamy shower to clear congestion.",
+          ],
+          medications: [
+            "Paracetamol/Acetaminophen: For fever and pain relief.",
+            "Decongestants: To relieve nasal congestion (use cautiously and follow age guidelines).",
+          ],
+          research: [
+            {
+              citation:
+                "RRL: ILI incidence peaks during the Philippine rainy season (June–November) due to increased virus stability and indoor crowding (DOH Surveillance Report, 2025).",
+              url: "https://www.who.int/news-room/fact-sheets/detail/influenza-(seasonal)", // Replaced DOH with WHO Flu Fact Sheet
+            },
+            {
+              citation:
+                "Scientific Research: Colds are caused by rhinovirus, while flu is caused by the influenza virus. Treatment is generally supportive and aims to relieve symptoms.",
+              url: "https://www.cdc.gov/features/rhinovirus/index.html", // CDC on Rhinovirus (Common Cold)
+            },
+          ],
+          expertComment: {
+            comment:
+              "An annual flu vaccine is the best way to prevent flu and protect against flu-related complications, including hospitalization and death.",
+            name: "Dr. William Schaffner, NFID Medical Director",
+            year: 2022,
+          },
+        },
+        {
+          name: "Dengue Fever",
+          description:
+            "A mosquito-borne viral disease, significant threat during the rainy season. Symptoms include high fever, rashes, body pain, and fatigue.",
+          keywords: [
+            "dengue",
+            "mosquito",
+            "high fever",
+            "rash",
+            "body pain",
+            "fatigue",
+            "viral",
+            "joint",
+            "headache",
+            "mosquito-borne",
+            "viral disease",
+            "threat",
+            "rainy season",
+          ],
+          cause:
+            "Caused by the **Dengue virus (DENV)**, which has four serotypes. Transmitted to humans through the bite of an infected **Aedes aegypti** mosquito.",
+          symptoms: [
+            "Sudden high fever (40°C/104°F) for 2–7 days",
+            "Severe headache",
+            "Pain behind the eyes",
+            "Severe joint and muscle pain",
+            "Skin rash (appearing 2-5 days after fever)",
+          ],
+          remedies: [
+            "Hydration: Drink plenty of fluids (water, oral rehydration solution).",
+            "Rest: Strict bed rest is essential.",
+            "Monitoring: Watch for warning signs like severe abdominal pain, persistent vomiting, bleeding, or sudden drop in temperature.",
+          ],
+          medications: [
+            "Paracetamol: To control fever and ease body pains.",
+            "AVOID NSAIDs: Medications like Ibuprofen or Aspirin MUST be avoided as they can increase the risk of bleeding (hemorrhage).",
+          ],
+          research: [
+            {
+              citation:
+                "RRL: DOH protocols emphasize that fever management in suspected dengue cases must exclusively use Paracetamol to avoid bleeding complications associated with NSAIDs.",
+              url: "https://www.cdc.gov/dengue/prevention/index.html", // Replaced DOH with CDC Dengue Prevention Guidance
+            },
+            {
+              citation:
+                "Scientific Research: The Dengue virus (DENV) has four serotypes. A second infection carries a higher risk of developing severe dengue due to Antibody-Dependent Enhancement (ADE).",
+              url: "https://www.who.int/news-room/fact-sheets/detail/dengue-and-severe-dengue", // WHO Dengue Fact Sheet
+            },
+          ],
+          expertComment: {
+            comment:
+              "When the fever goes down, that is precisely when you need to be seen by a doctor and monitor for signs or symptoms that might suggest you're progressing to severe dengue. It happens fast—like on the order of hours.",
+            name: "Dr. Joshua Wong, CDC Clinician",
+            year: 2025,
+          },
+        },
+        {
+          name: "Viral Gastroenteritis",
+          description:
+            "Often called 'stomach flu,' causing vomiting and diarrhea. Spread via contaminated food or water. Dehydration is a key concern.",
+          keywords: [
+            "vomiting",
+            "diarrhea",
+            "stomach flu",
+            "gastroenteritis",
+            "contaminated food",
+            "dehydration",
+            "unsafe water",
+            "urination",
+            "nausea",
+            "contaminated water",
+            "stomach",
+            "flu",
+          ],
+          cause:
+            "Caused by viruses like **Rotavirus** or **Norovirus**. It is easily transmitted via the fecal-oral route, typically through contaminated food, water, or surfaces.",
+          symptoms: [
+            "Watery diarrhea",
+            "Nausea and vomiting",
+            "Abdominal cramps",
+            "Low-grade fever",
+          ],
+          remedies: [
+            "Rehydration: Use Oral Rehydration Solution (ORS) frequently to replace lost fluids and electrolytes.",
+            "Diet: Start with bland foods (BRAT diet: bananas, rice, applesauce, toast).",
+            "Isolation: Practice strict hygiene to prevent spread.",
+          ],
+          medications: [
+            "ORS (Oral Rehydration Solution): The primary treatment to prevent dehydration.",
+            "Anti-diarrheal drugs are generally NOT recommended for children as they can prolong the infection.",
+          ],
+          research: [
+            {
+              citation:
+                "RRL: Studies in Metro Manila show gastroenteritis outbreaks often correlate with poor community sanitation or improper food handling in canteens (Philippine Journal of Pediatrics, 2023).",
+              url: "https://www.who.int/news-room/fact-sheets/detail/food-safety", // Replaced DOH with WHO Food Safety Fact Sheet
+            },
+            {
+              citation:
+                "Scientific Research: Most cases are caused by Rotavirus or Norovirus. The key to management is preventing severe dehydration, which causes mortality in children.",
+              url: "https://www.cdc.gov/norovirus/about/index.html", // CDC Norovirus General Information
+            },
+          ],
+          expertComment: {
+            comment:
+              "The main danger of viral gastroenteritis is dehydration. Parents must prioritize oral rehydration solutions (ORS) over plain water or sugary drinks, as ORS contains the necessary balance of salts and sugars for proper fluid absorption.",
+            name: "Dr. Amy Becker, Pediatrician",
+            year: 2024,
+          },
+        },
+        {
+          name: "Hand, Foot, and Mouth Disease (HFMD)",
+          description:
+            "A contagious viral infection most common in preschools. Causes painful sores in the mouth and rashes on the hands and feet.",
+          keywords: [
+            "hfmd",
+            "hand",
+            "foot",
+            "mouth",
+            "sores",
+            "rash",
+            "contagious",
+            "blisters",
+            "preschool",
+            "viral infection",
+            "painful sores",
+            "feet",
+            "hands",
+          ],
+          cause:
+            "Caused by **Coxsackievirus A16** or Enterovirus 71. Spread through direct contact with nasal discharge, saliva, feces, and fluid from blisters.",
+          symptoms: [
+            "Fever",
+            "Painful, red, blister-like sores in the mouth and throat",
+            "Red rash, sometimes with blistering, on the palms of the hands and soles of the feet",
+          ],
+          remedies: [
+            "Pain relief: Use non-aspirin pain relievers to ease discomfort.",
+            "Fluids: Encourage drinking to prevent dehydration, especially if mouth sores make swallowing painful.",
+            "Oral Rinse: Use warm salt water rinses to soothe mouth sores.",
+          ],
+          medications: [
+            "Paracetamol/Acetaminophen: For fever and discomfort.",
+            "Topical oral anesthetics: For mouth pain (consult doctor).",
+          ],
+          research: [
+            {
+              citation:
+                "RRL: The DOH noted a surge in HFMD cases among young Filipinos in 2024, emphasizing proper disinfection of shared objects in schools and daycares as critical preventive measures.",
+              url: "https://www.cdc.gov/hand-foot-mouth/about/prevention-treatment.html", // Replaced DOH with CDC HFMD Prevention & Treatment
+            },
+            {
+              citation:
+                "Scientific Research: HFMD is usually caused by Coxsackievirus A16. It is highly contagious, and transmission occurs through close personal contact, coughing/sneezing, and contact with contaminated surfaces.",
+              url: "https://www.who.int/westernpacific/health-topics/hand,-foot-and-mouth-disease", // WHO Hand, Foot and Mouth Disease
+            },
+          ],
+          expertComment: {
+            comment:
+              "The primary concern with HFMD is dehydration, especially in young children who refuse to drink due to painful mouth sores. Consistent monitoring of fluid intake is crucial until the sores subside.",
+            name: "Dr. Beth McClowry, Infectious Disease Specialist",
+            year: 2025,
+          },
+        },
+        {
+          name: "Parasitic Worm Infections",
+          description:
+            "Intestinal parasites linked to poor sanitation. Can affect nutrition and academic performance. Symptoms may include diarrhea.",
+          keywords: [
+            "parasite",
+            "worm",
+            "intestinal",
+            "sanitation",
+            "hygiene",
+            "diarrhea",
+            "malnutrition",
+            "stomach",
+            "de-worming",
+            "poor sanitation",
+            "nutrition",
+            "academic performance",
+          ],
+          cause:
+            "Caused by ingestion of parasitic eggs (e.g., Ascaris lumbricoides) often found in soil contaminated by human feces, typically due to poor sanitation and hygiene.",
+          symptoms: [
+            "Abdominal pain or discomfort",
+            "Diarrhea",
+            "Nausea/Vomiting (sometimes)",
+            "Fatigue/Weakness",
+            "Weight loss or poor weight gain",
+          ],
+          remedies: [
+            "Hygiene: Teach frequent handwashing, especially before eating and after using the toilet.",
+            "Sanitation: Ensure access to clean water and properly maintained toilets.",
+            "Nutrition: Maintain a balanced diet to support the body's defenses.",
+          ],
+          medications: [
+            "Deworming medications (e.g., Albendazole or Mebendazole): Administered under DOH programs or doctor's prescription.",
+            "Iron supplements: May be necessary if anemia has developed.",
+          ],
+          research: [
+            {
+              citation:
+                "RRL: School-based deworming programs are a public health priority in the Philippines. A 2022 study showed improved cognitive function and reduced anemia in children post-treatment.",
+              url: "https://www.who.int/news-room/fact-sheets/detail/soil-transmitted-helminthiases", // Replaced DOH with WHO Soil-transmitted Helminthiases Fact Sheet
+            },
+            {
+              citation:
+                "Scientific Research: Common infections include Ascariasis and Trichuriasis. Treatment involves targeted anthelmintic drugs that paralyze or kill the parasites for expulsion.",
+              url: "https://www.who.int/news-room/fact-sheets/detail/soil-transmitted-helminthiases", // WHO Soil-transmitted helminthiases (STH)
+            },
+          ],
+          expertComment: {
+            comment:
+              "Regular, targeted deworming combined with improved school and community hygiene is a cost-effective intervention that significantly boosts children's nutritional status and cognitive development.",
+            name: "Dr. Maria Elena Cruz, DOH Public Health Expert",
+            year: 2023,
+          },
+        },
+      ];
+
+      // ----------------------------------------------------
+      // CORE APPLICATION FUNCTIONS
+      // ----------------------------------------------------
+
+      /**
+       * Gets the value of a query parameter from the URL.
+       */
+      function getQueryParameter(name) {
+        const urlParams = new URLSearchParams(window.location.search);
+        return urlParams.get(name);
+      }
+
+      /**
+       * Renders the details of the diagnosed illness.
+       */
+      function renderDiagnosisDetails() {
+        const detailContent = document.getElementById("detail-content");
+        const illnessName = getQueryParameter("illness");
+
+        if (!illnessName) {
+          detailContent.innerHTML =
+            '<h1 class="text-4xl text-red-500 font-bold text-center">Error: No Illness Selected</h1><p class="text-center mt-4">Please return to the <a href="symptom_checker.html" class="text-primary-blue hover:underline">Symptom Checker</a> to make a diagnosis.</p>';
+          document.getElementById("page-title").textContent = "Error";
+          return;
+        }
+
+        // Find the illness object in the database
+        const illness = ILLNESS_DATABASE.find(
+          (item) => item.name === decodeURIComponent(illnessName)
+        );
+
+        if (!illness) {
+          detailContent.innerHTML = `<h1 class="text-4xl text-red-500 font-bold text-center">Error: Illness Not Found</h1><p class="text-center mt-4">Could not find details for: ${illnessName}.</p>`;
+          document.getElementById("page-title").textContent = "Not Found";
+          return;
+        }
+
+        // Set the page title
+        document.getElementById(
+          "page-title"
+        ).textContent = `${illness.name} | Care Connect`;
+
+        // --- Dynamic Content Generation ---
+
+        // 1. Expert Comment Section (NEW)
+        const expertCommentSection = `
+                <!-- Expert Comment Section -->
+                <div class="mb-8 p-6 bg-indigo-100 border-l-4 border-deep-indigo rounded-xl shadow-lg">
+                    <h2 class="text-2xl font-bold text-deep-indigo mb-4 flex items-center">
+                        <i class="fas fa-user-md mr-3 text-deep-indigo"></i> Expert Doctor's Comment
+                    </h2>
+                    <blockquote class="text-gray-700 italic border-l-4 border-indigo-400 pl-4 py-1 mb-3">
+                        "${illness.expertComment.comment}"
+                    </blockquote>
+                    <p class="text-sm font-semibold text-gray-600 text-right">
+                        — ${illness.expertComment.name} (${illness.expertComment.year})
+                    </p>
+                </div>
+            `;
+
+        // 2. Cause Section
+        const causeSection = `
+                <!-- Cause Section -->
+                <div class="mb-8 p-6 bg-blue-50 border-l-4 border-primary-blue rounded-lg shadow-md">
+                    <h2 class="text-2xl font-bold text-primary-blue mb-4 flex items-center">
+                        <i class="fas fa-microscope mr-3 text-primary-blue"></i> Cause & Etiology
+                    </h2>
+                    <p class="text-gray-700">${illness.cause}</p>
+                </div>
+            `;
+
+        // 3. Symptoms List
+        const symptomsList = illness.symptoms
+          .map(
+            (s) =>
+              `<li class="flex items-start text-gray-700">
+                    <i class="fas fa-exclamation-triangle section-icon text-sm mt-1 mr-3 flex-shrink-0"></i> 
+                    <span>${s}</span>
+                </li>`
+          )
+          .join("");
+
+        // 4. Remedy/Care List
+        const remediesList = illness.remedies
+          .map(
+            (r) =>
+              `<li class="flex items-start text-gray-700">
+                    <i class="fas fa-hand-holding-medical section-icon text-sm mt-1 mr-3 flex-shrink-0"></i> 
+                    <span>${r}</span>
+                </li>`
+          )
+          .join("");
+
+        // 5. Medication List
+        const medicationsList = illness.medications
+          .map(
+            (m) =>
+              `<li class="flex items-start text-gray-700">
+                    <i class="fas fa-pills section-icon text-sm mt-1 mr-3 flex-shrink-0"></i> 
+                    <span>${m}</span>
+                </li>`
+          )
+          .join("");
+
+        // 6. Research/RRL List
+        const researchList = illness.research
+          .map(
+            (item) =>
+              `<li class="flex items-start text-gray-700">
+                    <i class="fas fa-book section-icon text-sm mt-1 mr-3 flex-shrink-0"></i> 
+                    <a href="${item.url}" target="_blank" rel="noopener noreferrer" class="hover:underline text-primary-blue transition duration-150">
+                        <span>${item.citation} <i class="fas fa-external-link-alt text-xs ml-1"></i></span>
+                    </a>
+                </li>`
+          )
+          .join("");
+
+        // Combine all sections into the final HTML structure
+        detailContent.innerHTML = `
+                <h1 class="text-5xl font-extrabold text-primary-blue mb-2 text-center">${illness.name}</h1>
+                <p class="text-lg text-gray-600 mb-8 text-center">${illness.description}</p>
+
+                ${expertCommentSection} 
+                
+                ${causeSection}
+
+                <!-- Symptoms Section -->
+                <div class="mb-8 p-6 bg-red-50 border-l-4 border-red-500 rounded-lg shadow-md">
+                    <h2 class="text-2xl font-bold text-red-700 mb-4 flex items-center">
+                        <i class="fas fa-heartbeat mr-3 text-red-500"></i> Primary Symptoms
+                    </h2>
+                    <ul class="space-y-3 list-none p-0">
+                        ${symptomsList}
+                    </ul>
+                </div>
+
+                <!-- Recommended Remedies/Care -->
+                <div class="mb-8 p-6 bg-green-50 border-l-4 border-accent-green rounded-lg shadow-md">
+                    <h2 class="text-2xl font-bold text-accent-green mb-4 flex items-center">
+                        <i class="fas fa-first-aid mr-3 text-accent-green"></i> Recommended Remedies & Care
+                    </h2>
+                    <ul class="space-y-3 list-none p-0">
+                        ${remediesList}
+                    </ul>
+                </div>
+
+                <!-- Suggested Medications -->
+                <div class="mb-8 p-6 bg-yellow-50 border-l-4 border-yellow-500 rounded-lg shadow-md">
+                    <h2 class="text-2xl font-bold text-yellow-700 mb-4 flex items-center">
+                        <i class="fas fa-prescription-bottle-alt mr-3 text-yellow-500"></i> Doctor-Suggested Medications
+                    </h2>
+                    <ul class="space-y-3 list-none p-0">
+                        ${medicationsList}
+                    </ul>
+                </div>
+
+                <!-- Scientific Research & RRL -->
+                <div class="p-6 bg-indigo-50 border-l-4 border-primary-blue rounded-lg shadow-md">
+                    <h2 class="text-2xl font-bold text-primary-blue mb-4 flex items-center">
+                        <i class="fas fa-flask mr-3 text-primary-blue"></i> Scientific Research & RRL <span class="text-sm font-normal ml-3">(Click to view source)</span>
+                    </h2>
+                    <ul class="space-y-3 list-none p-0">
+                        ${researchList}
+                    </ul>
+                </div>
+            `;
+      }
+
+      // Initialize function on page load
+      window.onload = renderDiagnosisDetails;
+    </script>
+  </body>
+</html>
