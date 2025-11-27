@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Health Resources - Care Connect</title>
+
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700;800&family=Roboto:wght@300;400;500&display=swap"
+      rel="stylesheet"
+    />
+
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              "primary-blue": "#1D4ED8",
+              "accent-gold": "#FFC000",
+              "secondary-light": "#E0E7FF",
+              "primary-indigo": "#4338CA",
+            },
+            fontFamily: {
+              heading: ["Poppins", "sans-serif"],
+              body: ["Roboto", "sans-serif"],
+            },
+          },
+        },
+      };
+    </script>
+
+    <style>
+      body {
+        font-family: theme("fontFamily.body");
+        background-color: theme("colors.primary-blue");
+      }
+      .text-shadow-custom {
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+      }
+    </style>
+  </head>
+
+  <body class="min-h-screen bg-primary-blue text-white">
+    <!-- HEADER -->
+    <header
+      class="w-full z-30 py-4 px-6 sm:px-12 flex justify-between items-center text-white sticky top-0 bg-primary-blue shadow-lg"
+    >
+      <div class="text-3xl font-extrabold tracking-tight font-heading">
+        <span class="text-white">CARE</span>
+        <span class="text-secondary-light font-light ml-0.5">CONNECT</span>
+      </div>
+
+      <div class="flex space-x-4">
+        <!-- UPDATED BACK BUTTON -->
+        <a
+          href="index.html"
+          class="font-heading inline-flex items-center px-6 py-2 text-base text-primary-blue font-bold bg-accent-gold rounded-lg shadow-xl border-2 border-accent-gold hover:opacity-90 transition duration-300 transform hover:scale-[1.05]"
+        >
+          Back
+        </a>
+
+        <a
+          href="developers.html"
+          class="font-heading inline-flex items-center px-6 py-2 text-base text-primary-blue font-bold bg-accent-gold rounded-lg shadow-xl border-2 border-accent-gold hover:opacity-90 transition duration-300 transform hover:scale-[1.05]"
+        >
+          Developers
+        </a>
+
+        <a
+          href="sources.html"
+          class="font-heading inline-flex items-center px-6 py-2 text-base text-primary-blue font-bold bg-accent-gold rounded-lg shadow-xl border-2 border-accent-gold hover:opacity-90 transition duration-300 transform hover:scale-[1.05]"
+        >
+          Resources
+        </a>
+      </div>
+    </header>
+
+    <!-- MAIN CONTENT -->
+    <main class="p-6 md:p-12 lg:p-20 max-w-7xl mx-auto">
+      <h1
+        class="font-heading text-4xl sm:text-5xl text-accent-gold font-extrabold mb-6 text-shadow-custom"
+      >
+        Health Resources
+      </h1>
+
+      <p
+        class="text-lg sm:text-xl text-white/90 mb-10 bg-white/10 backdrop-blur-sm p-4 rounded-xl shadow-lg border border-white/20"
+      >
+        Browse through reliable health articles, guides, and videos crafted to
+        help you understand your wellbeing and make informed decisions.
+      </p>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+        <!-- Boost Immunity -->
+        <div
+          class="bg-white/10 backdrop-blur-lg border border-white/20 p-6 rounded-xl shadow-xl hover:scale-[1.03] transition-transform"
+        >
+          <h3 class="font-heading text-2xl font-bold text-accent-gold mb-3">
+            Boost Your Immunity
+          </h3>
+          <p class="text-white/90 mb-4">
+            Learn natural ways to strengthen your immune system.
+          </p>
+
+          <a
+            href="https://www.youtube.com/watch?v=yJNJpDEGne4"
+            target="_blank"
+            class="block"
+          >
+            <img
+              src="https://img.youtube.com/vi/yJNJpDEGne4/maxresdefault.jpg"
+              class="rounded-lg shadow-lg mb-4 w-full hover:opacity-90 transition"
+              alt="Boost Your Immunity"
+            />
+          </a>
+
+          <a
+            href="https://www.youtube.com/watch?v=yJNJpDEGne4"
+            class="font-bold text-accent-gold hover:underline"
+            target="_blank"
+          >
+            Watch Video (YouTube Link)
+          </a>
+        </div>
+
+        <!-- Mental Health Tips -->
+        <div
+          class="bg-white/10 backdrop-blur-lg border border-white/20 p-6 rounded-xl shadow-xl hover:scale-[1.03] transition-transform"
+        >
+          <h3 class="font-heading text-2xl font-bold text-accent-gold mb-3">
+            Mental Health Tips
+          </h3>
+          <p class="text-white/90 mb-4">
+            Discover ways to manage stress and improve emotional health.
+          </p>
+
+          <a
+            href="https://www.youtube.com/watch?v=YuO2FwBrmqY"
+            target="_blank"
+            class="block"
+          >
+            <img
+              src="https://img.youtube.com/vi/YuO2FwBrmqY/maxresdefault.jpg"
+              class="rounded-lg shadow-lg mb-4 w-full hover:opacity-90 transition"
+              alt="Mental Health Tips"
+            />
+          </a>
+
+          <a
+            href="https://www.youtube.com/watch?v=YuO2FwBrmqY"
+            class="font-bold text-accent-gold hover:underline"
+            target="_blank"
+          >
+            Watch Video (YouTube Link)
+          </a>
+        </div>
+
+        <!-- First Aid Guide -->
+        <div
+          class="bg-white/10 backdrop-blur-lg border border-white/20 p-6 rounded-xl shadow-xl hover:scale-[1.03] transition-transform"
+        >
+          <h3 class="font-heading text-2xl font-bold text-accent-gold mb-3">
+            First Aid Guide
+          </h3>
+          <p class="text-white/90 mb-4">
+            Learn essential first aid skills for emergencies.
+          </p>
+
+          <a
+            href="https://www.youtube.com/watch?v=ea1RJUOiNfQ"
+            target="_blank"
+            class="block"
+          >
+            <img
+              src="https://img.youtube.com/vi/ea1RJUOiNfQ/maxresdefault.jpg"
+              class="rounded-lg shadow-lg mb-4 w-full hover:opacity-90 transition"
+              alt="First Aid Guide"
+            />
+          </a>
+
+          <a
+            href="https://www.youtube.com/watch?v=ea1RJUOiNfQ"
+            class="font-bold text-accent-gold hover:underline"
+            target="_blank"
+          >
+            Watch Video (YouTube Link)
+          </a>
+        </div>
+
+        <!-- Healthy Eating -->
+        <div
+          class="bg-white/10 backdrop-blur-lg border border-white/20 p-6 rounded-xl shadow-xl hover:scale-[1.03] transition-transform"
+        >
+          <h3 class="font-heading text-2xl font-bold text-accent-gold mb-3">
+            Healthy Eating
+          </h3>
+          <p class="text-white/90 mb-4">
+            Learn how to build a balanced and nutritious diet.
+          </p>
+
+          <a
+            href="https://www.youtube.com/watch?v=xyQY8a-ng6g"
+            target="_blank"
+            class="block"
+          >
+            <img
+              src="https://img.youtube.com/vi/xyQY8a-ng6g/maxresdefault.jpg"
+              class="rounded-lg shadow-lg mb-4 w-full hover:opacity-90 transition"
+              alt="Healthy Eating"
+            />
+          </a>
+
+          <a
+            href="https://www.youtube.com/watch?v=xyQY8a-ng6g"
+            class="font-bold text-accent-gold hover:underline"
+            target="_blank"
+          >
+            Watch Video (YouTube Link)
+          </a>
+        </div>
+
+        <!-- Exercise & Fitness -->
+        <div
+          class="bg-white/10 backdrop-blur-lg border border-white/20 p-6 rounded-xl shadow-xl hover:scale-[1.03] transition-transform"
+        >
+          <h3 class="font-heading text-2xl font-bold text-accent-gold mb-3">
+            Exercise & Fitness
+          </h3>
+          <p class="text-white/90 mb-4">
+            Build an exercise routine that fits your goals.
+          </p>
+
+          <a
+            href="https://www.youtube.com/watch?v=8ef7FhmMcLU"
+            target="_blank"
+            class="block"
+          >
+            <img
+              src="https://img.youtube.com/vi/8ef7FhmMcLU/maxresdefault.jpg"
+              class="rounded-lg shadow-lg mb-4 w-full hover:opacity-90 transition"
+              alt="Exercise & Fitness"
+            />
+          </a>
+
+          <a
+            href="https://www.youtube.com/watch?v=8ef7FhmMcLU"
+            class="font-bold text-accent-gold hover:underline"
+            target="_blank"
+          >
+            Watch Video (YouTube Link)
+          </a>
+        </div>
+
+        <!-- Sleep Health -->
+        <div
+          class="bg-white/10 backdrop-blur-lg border border-white/20 p-6 rounded-xl shadow-xl hover:scale-[1.03] transition-transform"
+        >
+          <h3 class="font-heading text-2xl font-bold text-accent-gold mb-3">
+            Sleep Health
+          </h3>
+          <p class="text-white/90 mb-4">
+            Improve your sleep quality and overall health.
+          </p>
+
+          <a
+            href="https://www.youtube.com/watch?v=fQUeDdaVoWo"
+            target="_blank"
+            class="block"
+          >
+            <img
+              src="https://img.youtube.com/vi/fQUeDdaVoWo/maxresdefault.jpg"
+              class="rounded-lg shadow-lg mb-4 w-full hover:opacity-90 transition"
+              alt="Sleep Health"
+            />
+          </a>
+
+          <a
+            href="https://www.youtube.com/watch?v=fQUeDdaVoWo"
+            class="font-bold text-accent-gold hover:underline"
+            target="_blank"
+          >
+            Watch Video (YouTube Link)
+          </a>
+        </div>
+      </div>
+    </main>
+
+    <footer class="bg-primary-blue text-white py-6">
+      <div class="text-center">
+        <p>&copy; 2025 Care Connect. All Rights Reserved.</p>
+      </div>
+    </footer>
+  </body>
+</html>
